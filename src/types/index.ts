@@ -1,11 +1,9 @@
 export interface GasData {
   baseFee: string;
-  slow: number;
-  standard: number;
-  fast: number;
+  baseFeeRaw: number;
 }
 
-export interface EthPriceData {
+export interface PriceData {
   price: number;
   symbol: string;
 }
