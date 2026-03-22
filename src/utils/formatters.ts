@@ -32,7 +32,7 @@ export function formatMessage(
   return `${color} ${gas} - ETH Gwei⛽️
 
 $BTC: ${formatPrice(prices.btc)}
-$SOL: ${formatPrice(prices.sol)}
 $ETH: ${formatPrice(prices.eth)}
+$SOL: ${formatPrice(prices.sol)}
 `;
 }
