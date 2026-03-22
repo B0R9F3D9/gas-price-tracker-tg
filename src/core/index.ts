@@ -3,9 +3,12 @@ import { fetchGasPrice } from "../services/gas";
 import { fetchBtcPrice, fetchSolPrice, fetchEthPrice } from "../services/prices";
 import { sendTelegramMessage } from "../services/telegram";
 import { formatMessage } from "../utils/formatters";
+import { logger } from "../utils/logger";
 
 export default {
   async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
+    logger.info("worker_run_start");
+
     try {
       const [gasData, btcPrice, solPrice, ethPrice] = await Promise.all([
         fetchGasPrice(env),
@@ -13,6 +16,18 @@ export default {
         fetchSolPrice(),
         fetchEthPrice(),
       ]);
+
+      logger.info("data_fetched", {
+        gas: {
+          baseFee: gasData.baseFee,
+          baseFeeRaw: gasData.baseFeeRaw,
+        },
+        prices: {
+          BTC: btcPrice.price,
+          SOL: solPrice.price,
+          ETH: ethPrice.price,
+        },
+      });
 
       const html = formatMessage(gasData, {
         btc: btcPrice.price,
@@ -22,9 +37,11 @@ export default {
 
       await sendTelegramMessage(html, env);
 
-      console.log("Message sent successfully");
+      logger.info("worker_run_success", {
+        messageLength: html.length,
+      });
     } catch (error) {
-      console.error("Error in scheduled handler:", error);
+      logger.error("worker_run_error", error);
       throw error;
     }
   },
