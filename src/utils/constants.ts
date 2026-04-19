@@ -5,6 +5,15 @@ export const GAS_THRESHOLDS = {
 
 export const PRICE_SOURCES = [
   {
+    name: "coinbase",
+    urls: {
+      ETH: "https://api.coinbase.com/v2/prices/ETH-USD/spot",
+      BTC: "https://api.coinbase.com/v2/prices/BTC-USD/spot",
+      SOL: "https://api.coinbase.com/v2/prices/SOL-USD/spot",
+    },
+    parsePrice: (data: any) => parseFloat(data.data.amount),
+  },
+  {
     name: "binance",
     urls: {
       ETH: "https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT",
@@ -14,33 +23,33 @@ export const PRICE_SOURCES = [
     parsePrice: (data: any) => parseFloat(data.price),
   },
   {
-    name: "coingecko",
+    name: "kraken",
     urls: {
-      ETH: "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
-      BTC: "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd",
-      SOL: "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",
+      ETH: "https://api.kraken.com/0/public/Ticker?pair=ETHUSD",
+      BTC: "https://api.kraken.com/0/public/Ticker?pair=XBTUSD",
+      SOL: "https://api.kraken.com/0/public/Ticker?pair=SOLUSD",
     },
     parsePrice: (data: any) => {
-      const key = Object.keys(data)[0];
-      return data[key].usd;
+      const pair = Object.keys(data.result)[0];
+      return parseFloat(data.result[pair].c[0]);
     },
   },
   {
-    name: "cryptocompare",
+    name: "mexc",
     urls: {
-      ETH: "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD",
-      BTC: "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD",
-      SOL: "https://min-api.cryptocompare.com/data/price?fsym=SOL&tsyms=USD",
+      ETH: "https://api.mexc.com/api/v3/ticker/price?symbol=ETHUSDT",
+      BTC: "https://api.mexc.com/api/v3/ticker/price?symbol=BTCUSDT",
+      SOL: "https://api.mexc.com/api/v3/ticker/price?symbol=SOLUSDT",
     },
-    parsePrice: (data: any) => data.USD,
+    parsePrice: (data: any) => parseFloat(data.price),
   },
   {
-    name: "coinbase",
+    name: "bybit",
     urls: {
-      ETH: "https://api.coinbase.com/v2/prices/ETH-USD/spot",
-      BTC: "https://api.coinbase.com/v2/prices/BTC-USD/spot",
-      SOL: "https://api.coinbase.com/v2/prices/SOL-USD/spot",
+      ETH: "https://api.bybit.com/v5/market/tickers?category=spot&symbol=ETHUSDT",
+      BTC: "https://api.bybit.com/v5/market/tickers?category=spot&symbol=BTCUSDT",
+      SOL: "https://api.bybit.com/v5/market/tickers?category=spot&symbol=SOLUSDT",
     },
-    parsePrice: (data: any) => parseFloat(data.data.amount),
+    parsePrice: (data: any) => parseFloat(data.result.list[0].lastPrice),
   },
 ] as const;

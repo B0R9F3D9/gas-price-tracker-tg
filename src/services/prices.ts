@@ -27,6 +27,16 @@ async function fetchPriceWithFallback(symbol: CryptoSymbol): Promise<PriceData> 
       const data = await response.json();
       const price = source.parsePrice(data);
 
+      if (price === undefined || price === null || isNaN(price)) {
+        logger.warn("price_fetch_invalid_price", {
+          symbol,
+          source: source.name,
+          price,
+          data,
+        });
+        continue;
+      }
+
       logger.info("price_fetch_success", { symbol, source: source.name, price });
 
       return { price, symbol: `${symbol}USDT` };
