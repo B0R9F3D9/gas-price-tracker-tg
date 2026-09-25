@@ -5,6 +5,20 @@ export const GAS_THRESHOLDS = {
   MEDIUM: 25,
 } as const;
 
+export interface RpcSource {
+  name: string;
+  url: string;
+}
+
+export const ETH_RPC_SOURCES: readonly RpcSource[] = [
+  { name: "drpc", url: "https://eth.drpc.org" },
+  { name: "mevblocker", url: "https://rpc.mevblocker.io" },
+  { name: "tenderly", url: "https://gateway.tenderly.co/public/mainnet" },
+  { name: "blastapi", url: "https://eth-mainnet.public.blastapi.io" },
+  { name: "flashbots", url: "https://rpc.flashbots.net" },
+  { name: "publicnode", url: "https://ethereum-rpc.publicnode.com" },
+] as const;
+
 export interface PriceSource {
   name: string;
   urls: Record<CryptoSymbol, string>;
