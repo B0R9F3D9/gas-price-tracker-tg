@@ -95,6 +95,67 @@ export async function fetchEthPrice(): Promise<PriceData> {
   return fetchPriceWithFallback("ETH");
 }
 
+export const LIGHTER_GOLD_SOURCES = [
+  {
+    name: "lighter-rh",
+    url: "https://api.rh.lighter.xyz/api/v1/exchangeStats",
+    label: "Robinhood Lighter",
+  },
+  {
+    name: "lighter-mainnet",
+    url: "https://mainnet.zklighter.elliot.ai/api/v1/exchangeStats",
+    label: "Lighter Mainnet",
+  },
+] as const;
+
 export async function fetchGoldPrice(): Promise<PriceData> {
+  logger.info("gold_price_fetch_start", { source: "lighter" });
+
+  for (const source of LIGHTER_GOLD_SOURCES) {
+    try {
+      logger.info("gold_price_fetch_attempt", { source: source.name, url: source.url });
+
+      const response = await fetch(source.url, {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "Mozilla/5.0 (compatible; GasPriceTracker/1.0)",
+        },
+        signal: AbortSignal.timeout(5000),
+      });
+
+      if (!response.ok) {
+        logger.warn("gold_price_fetch_failed", {
+          source: source.name,
+          status: response.status,
+          statusText: response.statusText,
+        });
+        continue;
+      }
+
+      const data = (await response.json()) as any;
+      if (data?.code === 200 && Array.isArray(data.order_book_stats)) {
+        const xau = data.order_book_stats.find(
+          (s: any) => s.symbol === "XAU" || s.symbol === "XAU-PERP"
+        );
+        const price = xau?.last_trade_price ? parseFloat(xau.last_trade_price) : NaN;
+
+        if (!isNaN(price) && price > 0) {
+          logger.info("gold_price_fetch_success", {
+            source: source.name,
+            symbol: "XAU",
+            price,
+          });
+          return { price, symbol: "XAU" };
+        }
+      }
+
+      logger.warn("gold_price_fetch_invalid_payload", { source: source.name });
+    } catch (error) {
+      logger.warn("gold_price_fetch_error", { source: source.name }, error);
+      continue;
+    }
+  }
+
+  logger.warn("gold_price_lighter_failed_using_fallback");
   return fetchPriceWithFallback("GOLD");
 }

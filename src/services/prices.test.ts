@@ -32,9 +32,9 @@ describe("prices service", () => {
     expect(data.symbol).toBe("SOLUSDT");
   });
 
-  test("fetchGoldPrice fetches a positive number", async () => {
+  test("fetchGoldPrice fetches a positive number from Lighter", async () => {
     const data = await fetchGoldPrice();
     expect(data.price).toBeGreaterThan(0);
-    expect(data.symbol).toBe("GOLDUSDT");
+    expect(["XAU", "GOLDUSDT"]).toContain(data.symbol);
   });
 });

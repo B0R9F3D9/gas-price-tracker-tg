@@ -5,7 +5,8 @@ Cloudflare Worker that tracks Ethereum gas prices and crypto & commodity prices 
 ## Features
 
 - Fetches ETH gas price from Ethereum RPC
-- Fetches BTC, ETH, SOL, GOLD (PAXG) prices with multi-exchange fallback (OKX, Binance, KuCoin, Gate.io, Coinbase, Bitget, Kraken)
+- Fetches BTC, ETH, SOL from major exchanges (OKX, Binance, KuCoin, Gate.io, Coinbase, Bitget, Kraken)
+- Fetches Gold price (XAU) from Lighter (Robinhood Chain & Mainnet) with multi-exchange fallback
 - Resilient rate-limiting handling and safe response parsing
 - Color-coded gas indicator (green/yellow/red based on thresholds)
 - Posts HTML formatted message to Telegram channel
