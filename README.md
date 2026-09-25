@@ -1,11 +1,12 @@
 # ETH Gas Tracker Bot
 
-Cloudflare Worker that tracks Ethereum gas prices and crypto prices (BTC, SOL, ETH), posting updates to Telegram every minute.
+Cloudflare Worker that tracks Ethereum gas prices and crypto & commodity prices (BTC, ETH, SOL, GOLD), posting updates to Telegram every minute.
 
 ## Features
 
 - Fetches ETH gas price from Ethereum RPC
-- Fetches BTC, SOL, ETH prices from Binance API
+- Fetches BTC, ETH, SOL, GOLD (PAXG) prices with multi-exchange fallback (OKX, Binance, KuCoin, Gate.io, Coinbase, Bitget, Kraken)
+- Resilient rate-limiting handling and safe response parsing
 - Color-coded gas indicator (green/yellow/red based on thresholds)
 - Posts HTML formatted message to Telegram channel
 - Runs on a scheduled cron (every 1 minute)

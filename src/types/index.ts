@@ -20,3 +20,5 @@ export interface Env {
   TELEGRAM_CHAT_ID: string;
   ENVIRONMENT?: string;
 }
+
+export type CryptoSymbol = "BTC" | "ETH" | "SOL" | "GOLD";
