@@ -4,10 +4,16 @@ import { fetchBtcPrice, fetchSolPrice, fetchEthPrice, fetchGoldPrice } from "../
 import { sendTelegramMessage } from "../services/telegram";
 import { formatMessage } from "../utils/formatters";
 import { logger } from "../utils/logger";
+import {
+  pingHealthcheckStart,
+  pingHealthcheckSuccess,
+  pingHealthcheckFail,
+} from "../services/healthcheck";
 
 export default {
   async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
     logger.info("worker_run_start");
+    await pingHealthcheckStart(env);
 
     try {
       const [gasData, btcPrice, solPrice, ethPrice, goldPrice] = await Promise.all([
@@ -43,8 +49,14 @@ export default {
       logger.info("worker_run_success", {
         messageLength: html.length,
       });
+
+      await pingHealthcheckSuccess(
+        env,
+        `Gas: ${gasData.baseFee} Gwei | BTC: $${btcPrice.price} | ETH: $${ethPrice.price} | SOL: $${solPrice.price} | GOLD: $${goldPrice.price}`
+      );
     } catch (error) {
       logger.error("worker_run_error", error);
+      await pingHealthcheckFail(env, error);
       throw error;
     }
   },

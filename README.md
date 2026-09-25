@@ -9,6 +9,7 @@ Cloudflare Worker that tracks Ethereum gas prices and crypto & commodity prices 
 - Resilient rate-limiting handling and safe response parsing
 - Color-coded gas indicator (green/yellow/red based on thresholds)
 - Posts HTML formatted message to Telegram channel
+- Healthchecks.io monitoring (/start, /fail, success pings with diagnostic logs)
 - Runs on a scheduled cron (every 1 minute)
 
 ## Project Structure
@@ -19,11 +20,13 @@ src/
 │   └── index.ts          # Main worker entry point
 ├── services/
 │   ├── gas.ts            # Gas price fetching from RPC
-│   ├── prices.ts         # Crypto prices from Binance
+│   ├── prices.ts         # Crypto & commodity prices with multi-exchange fallback
+│   ├── healthcheck.ts    # Healthchecks.io pinging
 │   └── telegram.ts       # Telegram messaging
 ├── utils/
 │   ├── constants.ts      # API URLs, gas thresholds
-│   └── formatters.ts     # Message formatting, color logic
+│   ├── formatters.ts     # Message formatting, color logic
+│   └── logger.ts         # Structured JSON logging
 └── types/
     └── index.ts          # TypeScript type definitions
 ```
@@ -42,19 +45,21 @@ bun install
 cp .env.example .env
 ```
 
-Edit `.env` with your values:
+Edit `.env` (or set via `bunx wrangler secret put HEALTHCHECK_URL`):
 
 ```env
-ETHEREUM_RPC_URL=https://mainnet.infura.io/v3/YOUR_INFURA_KEY
+ETHEREUM_RPC_URL=https://ethereum-rpc.publicnode.com
 TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrsTUVwxyz
-TELEGRAM_CHAT_ID=-1001234567890
+TELEGRAM_CHAT_ID=@your_channel
+HEALTHCHECK_URL=https://hc-ping.com/your-uuid-here
 ```
 
 ### 3. Get your credentials
 
-- **ETHEREUM_RPC_URL**: Use Infura, Alchemy, or any mainnet RPC endpoint
+- **ETHEREUM_RPC_URL**: Use Infura, Alchemy, or public RPC endpoint
 - **TELEGRAM_BOT_TOKEN**: Get from [@BotFather](https://t.me/BotFather)
 - **TELEGRAM_CHAT_ID**: Your channel username (e.g., `@your_channel`) or chat ID
+- **HEALTHCHECK_URL** (optional): Check ping URL from [healthchecks.io](https://healthchecks.io/)
 
 ## Development
 

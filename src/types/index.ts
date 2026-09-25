@@ -19,6 +19,7 @@ export interface Env {
   TELEGRAM_BOT_TOKEN: string;
   TELEGRAM_CHAT_ID: string;
   ENVIRONMENT?: string;
+  HEALTHCHECK_URL?: string;
 }
 
 export type CryptoSymbol = "BTC" | "ETH" | "SOL" | "GOLD";
