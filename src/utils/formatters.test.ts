@@ -20,16 +20,15 @@ describe("formatters", () => {
     expect(formatPrice(4297.6)).toBe("<b>$4,297.60</b>");
   });
 
-  test("formatMessage formats telegram message including gas and all 4 prices", () => {
+  test("formatMessage formats telegram message including gas and crypto prices", () => {
     const msg = formatMessage(
       { baseFee: "0.40", baseFeeRaw: 0.40 },
-      { btc: 84670.5, eth: 2721.62, sol: 121.01, gold: 4297.6 }
+      { btc: 84670.5, eth: 2721.62, sol: 121.01 }
     );
 
     expect(msg).toContain("🟩 0.40 - ETH Gwei⛽️");
     expect(msg).toContain("$BTC: <b>$84,670.50</b>");
     expect(msg).toContain("$ETH: <b>$2,721.62</b>");
     expect(msg).toContain("$SOL: <b>$121.01</b>");
-    expect(msg).toContain("$GOLD: <b>$4,297.60</b>");
   });
 });

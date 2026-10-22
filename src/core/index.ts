@@ -1,6 +1,6 @@
 import type { Env } from "../types";
 import { fetchGasPrice } from "../services/gas";
-import { fetchBtcPrice, fetchSolPrice, fetchEthPrice, fetchGoldPrice } from "../services/prices";
+import { fetchBtcPrice, fetchSolPrice, fetchEthPrice } from "../services/prices";
 import { sendTelegramMessage } from "../services/telegram";
 import { formatMessage } from "../utils/formatters";
 import { logger } from "../utils/logger";
@@ -16,12 +16,11 @@ export default {
     await pingHealthcheckStart(env);
 
     try {
-      const [gasData, btcPrice, solPrice, ethPrice, goldPrice] = await Promise.all([
+      const [gasData, btcPrice, solPrice, ethPrice] = await Promise.all([
         fetchGasPrice(env),
         fetchBtcPrice(),
         fetchSolPrice(),
         fetchEthPrice(),
-        fetchGoldPrice(),
       ]);
 
       logger.info("data_fetched", {
@@ -33,7 +32,6 @@ export default {
           BTC: btcPrice.price,
           SOL: solPrice.price,
           ETH: ethPrice.price,
-          GOLD: goldPrice.price,
         },
       });
 
@@ -41,7 +39,6 @@ export default {
         btc: btcPrice.price,
         sol: solPrice.price,
         eth: ethPrice.price,
-        gold: goldPrice.price,
       });
 
       await sendTelegramMessage(html, env);
@@ -52,7 +49,7 @@ export default {
 
       await pingHealthcheckSuccess(
         env,
-        `Gas: ${gasData.baseFee} Gwei | BTC: $${btcPrice.price} | ETH: $${ethPrice.price} | SOL: $${solPrice.price} | GOLD: $${goldPrice.price}`
+        `Gas: ${gasData.baseFee} Gwei | BTC: $${btcPrice.price} | ETH: $${ethPrice.price} | SOL: $${solPrice.price}`
       );
     } catch (error) {
       logger.error("worker_run_error", error);

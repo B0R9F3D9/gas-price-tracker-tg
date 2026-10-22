@@ -32,7 +32,6 @@ export const PRICE_SOURCES: readonly PriceSource[] = [
       BTC: "https://www.okx.com/api/v5/market/ticker?instId=BTC-USDT",
       ETH: "https://www.okx.com/api/v5/market/ticker?instId=ETH-USDT",
       SOL: "https://www.okx.com/api/v5/market/ticker?instId=SOL-USDT",
-      GOLD: "https://www.okx.com/api/v5/market/ticker?instId=PAXG-USDT",
     },
     parsePrice: (data: any) => {
       const val = data?.data?.[0]?.last;
@@ -45,7 +44,6 @@ export const PRICE_SOURCES: readonly PriceSource[] = [
       BTC: "https://data-api.binance.vision/api/v3/ticker/price?symbol=BTCUSDT",
       ETH: "https://data-api.binance.vision/api/v3/ticker/price?symbol=ETHUSDT",
       SOL: "https://data-api.binance.vision/api/v3/ticker/price?symbol=SOLUSDT",
-      GOLD: "https://data-api.binance.vision/api/v3/ticker/price?symbol=PAXGUSDT",
     },
     parsePrice: (data: any) => parseFloat(data?.price),
   },
@@ -55,7 +53,6 @@ export const PRICE_SOURCES: readonly PriceSource[] = [
       BTC: "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=BTC-USDT",
       ETH: "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=ETH-USDT",
       SOL: "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=SOL-USDT",
-      GOLD: "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=PAXG-USDT",
     },
     parsePrice: (data: any) => parseFloat(data?.data?.price),
   },
@@ -65,7 +62,6 @@ export const PRICE_SOURCES: readonly PriceSource[] = [
       BTC: "https://api.gateio.ws/api/v4/spot/tickers?currency_pair=BTC_USDT",
       ETH: "https://api.gateio.ws/api/v4/spot/tickers?currency_pair=ETH_USDT",
       SOL: "https://api.gateio.ws/api/v4/spot/tickers?currency_pair=SOL_USDT",
-      GOLD: "https://api.gateio.ws/api/v4/spot/tickers?currency_pair=PAXG_USDT",
     },
     parsePrice: (data: any) => parseFloat(data?.[0]?.last),
   },
@@ -75,7 +71,6 @@ export const PRICE_SOURCES: readonly PriceSource[] = [
       BTC: "https://api.coinbase.com/v2/prices/BTC-USD/spot",
       ETH: "https://api.coinbase.com/v2/prices/ETH-USD/spot",
       SOL: "https://api.coinbase.com/v2/prices/SOL-USD/spot",
-      GOLD: "https://api.coinbase.com/v2/prices/PAXG-USD/spot",
     },
     parsePrice: (data: any) => parseFloat(data?.data?.amount),
   },
@@ -85,7 +80,6 @@ export const PRICE_SOURCES: readonly PriceSource[] = [
       BTC: "https://api.bitget.com/api/v2/spot/market/tickers?symbol=BTCUSDT",
       ETH: "https://api.bitget.com/api/v2/spot/market/tickers?symbol=ETHUSDT",
       SOL: "https://api.bitget.com/api/v2/spot/market/tickers?symbol=SOLUSDT",
-      GOLD: "https://api.bitget.com/api/v2/spot/market/tickers?symbol=PAXGUSDT",
     },
     parsePrice: (data: any) => parseFloat(data?.data?.[0]?.lastPr),
   },
@@ -95,7 +89,6 @@ export const PRICE_SOURCES: readonly PriceSource[] = [
       BTC: "https://api.kraken.com/0/public/Ticker?pair=XBTUSD",
       ETH: "https://api.kraken.com/0/public/Ticker?pair=ETHUSD",
       SOL: "https://api.kraken.com/0/public/Ticker?pair=SOLUSD",
-      GOLD: "https://api.kraken.com/0/public/Ticker?pair=PAXGUSD",
     },
     parsePrice: (data: any) => {
       if (!data?.result || typeof data.result !== "object") return NaN;

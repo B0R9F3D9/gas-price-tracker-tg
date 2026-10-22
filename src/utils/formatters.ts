@@ -24,7 +24,7 @@ export function formatPrice(price: number): string {
 
 export function formatMessage(
   gasData: { baseFee: string; baseFeeRaw: number },
-  prices: { btc: number; sol: number; eth: number; gold: number },
+  prices: { btc: number; sol: number; eth: number },
 ): string {
   const color = getGasColor(gasData.baseFeeRaw);
   const gas = formatGas(gasData.baseFeeRaw);
@@ -34,6 +34,5 @@ export function formatMessage(
 $BTC: ${formatPrice(prices.btc)}
 $ETH: ${formatPrice(prices.eth)}
 $SOL: ${formatPrice(prices.sol)}
-$GOLD: ${formatPrice(prices.gold)}
 `;
 }

@@ -22,4 +22,4 @@ export interface Env {
   HEALTHCHECK_URL?: string;
 }
 
-export type CryptoSymbol = "BTC" | "ETH" | "SOL" | "GOLD";
+export type CryptoSymbol = "BTC" | "ETH" | "SOL";

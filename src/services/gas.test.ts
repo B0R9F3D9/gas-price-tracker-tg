@@ -19,7 +19,7 @@ describe("gas service", () => {
       TELEGRAM_CHAT_ID: "chat",
     };
     const sourcesWithCustom = getRpcSources(customEnv);
-    expect(sourcesWithCustom[0].url).toBe("https://my-custom-node.example.com");
+    expect(sourcesWithCustom[0]?.url).toBe("https://my-custom-node.example.com");
 
     const publicNodeEnv: Env = {
       ETHEREUM_RPC_URL: "https://ethereum-rpc.publicnode.com",
@@ -27,7 +27,7 @@ describe("gas service", () => {
       TELEGRAM_CHAT_ID: "chat",
     };
     const sourcesWithPublicNode = getRpcSources(publicNodeEnv);
-    expect(sourcesWithPublicNode[0].name).not.toBe("env_rpc");
+    expect(sourcesWithPublicNode[0]?.name).not.toBe("env_rpc");
     expect(sourcesWithPublicNode.some((s) => s.url === "https://ethereum-rpc.publicnode.com")).toBe(true);
   });
 

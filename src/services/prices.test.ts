@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { fetchBtcPrice, fetchEthPrice, fetchSolPrice, fetchGoldPrice } from "./prices";
+import { fetchBtcPrice, fetchEthPrice, fetchSolPrice } from "./prices";
 import { PRICE_SOURCES } from "../utils/constants";
 
 describe("prices service", () => {
@@ -10,7 +10,6 @@ describe("prices service", () => {
       expect(source.urls.BTC).toBeDefined();
       expect(source.urls.ETH).toBeDefined();
       expect(source.urls.SOL).toBeDefined();
-      expect(source.urls.GOLD).toBeDefined();
     }
   });
 
@@ -30,11 +29,5 @@ describe("prices service", () => {
     const data = await fetchSolPrice();
     expect(data.price).toBeGreaterThan(0);
     expect(data.symbol).toBe("SOLUSDT");
-  });
-
-  test("fetchGoldPrice fetches a positive number from Lighter", async () => {
-    const data = await fetchGoldPrice();
-    expect(data.price).toBeGreaterThan(0);
-    expect(["XAU", "GOLDUSDT"]).toContain(data.symbol);
   });
 });
