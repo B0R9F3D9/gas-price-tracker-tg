@@ -7,7 +7,12 @@ interface LogEntry {
   [key: string]: unknown;
 }
 
-function log(level: LogLevel, event: string, data: Record<string, unknown> = {}, error?: unknown): void {
+function log(
+  level: LogLevel,
+  event: string,
+  data: Record<string, unknown> = {},
+  error?: unknown,
+): void {
   const entry: LogEntry = {
     level,
     timestamp: new Date().toISOString(),
@@ -24,6 +29,8 @@ function log(level: LogLevel, event: string, data: Record<string, unknown> = {},
 
   if (level === "error") {
     console.error(JSON.stringify(entry));
+  } else if (level === "warn") {
+    console.warn(JSON.stringify(entry));
   } else {
     console.log(JSON.stringify(entry));
   }

@@ -26,14 +26,10 @@ export function getRpcSources(env?: Env): RpcSource[] {
 }
 
 export async function fetchGasPrice(env?: Env): Promise<GasData> {
-  logger.info("gas_fetch_start");
-
   const sources = getRpcSources(env);
 
   for (const source of sources) {
     try {
-      logger.info("gas_fetch_attempt", { source: source.name, url: source.url });
-
       const response = await fetch(source.url, {
         method: "POST",
         headers: {
@@ -89,13 +85,6 @@ export async function fetchGasPrice(env?: Env): Promise<GasData> {
       const baseFeeGwei = baseFeeRaw / 1e9;
       const baseFee = baseFeeGwei.toFixed(2);
 
-      logger.info("gas_fetch_success", {
-        source: source.name,
-        baseFee,
-        baseFeeRaw: baseFeeGwei,
-        hexResult: data.result,
-      });
-
       return {
         baseFee,
         baseFeeRaw: baseFeeGwei,
@@ -110,4 +99,3 @@ export async function fetchGasPrice(env?: Env): Promise<GasData> {
   logger.error("gas_fetch_all_failed", new Error(errorMsg));
   throw new Error(errorMsg);
 }
-

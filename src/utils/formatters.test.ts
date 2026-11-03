@@ -22,8 +22,8 @@ describe("formatters", () => {
 
   test("formatMessage formats telegram message including gas and crypto prices", () => {
     const msg = formatMessage(
-      { baseFee: "0.40", baseFeeRaw: 0.40 },
-      { btc: 84670.5, eth: 2721.62, sol: 121.01 }
+      { baseFee: "0.40", baseFeeRaw: 0.4 },
+      { btc: 84670.5, eth: 2721.62, sol: 121.01 },
     );
 
     expect(msg).toContain("🟩 0.40 - ETH Gwei⛽️");

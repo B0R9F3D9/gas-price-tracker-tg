@@ -10,7 +10,6 @@ export async function pingHealthcheckStart(env: Env): Promise<void> {
 
   try {
     const baseUrl = getBaseUrl(env.HEALTHCHECK_URL);
-    logger.info("healthcheck_start_ping");
     await fetch(`${baseUrl}/start`, {
       method: "POST",
       headers: {
@@ -30,7 +29,6 @@ export async function pingHealthcheckSuccess(env: Env, logBody?: string): Promis
 
   try {
     const baseUrl = getBaseUrl(env.HEALTHCHECK_URL);
-    logger.info("healthcheck_success_ping");
     await fetch(baseUrl, {
       method: "POST",
       headers: {
@@ -57,7 +55,6 @@ export async function pingHealthcheckFail(env: Env, error: unknown): Promise<voi
         ? `${error.name}: ${error.message}\n\nStack:\n${error.stack ?? ""}`
         : String(error);
 
-    logger.info("healthcheck_fail_ping");
     await fetch(`${baseUrl}/fail`, {
       method: "POST",
       headers: {

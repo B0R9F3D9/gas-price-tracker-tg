@@ -1,9 +1,5 @@
 import { describe, expect, test, mock } from "bun:test";
-import {
-  pingHealthcheckStart,
-  pingHealthcheckSuccess,
-  pingHealthcheckFail,
-} from "./healthcheck";
+import { pingHealthcheckStart, pingHealthcheckSuccess, pingHealthcheckFail } from "./healthcheck";
 
 describe("healthcheck service", () => {
   test("does nothing when HEALTHCHECK_URL is not set", async () => {
@@ -49,9 +45,7 @@ describe("healthcheck service", () => {
 
       await pingHealthcheckStart(env);
 
-      expect(urls).toEqual([
-        "https://hc-ping.com/12345678-1234-1234-1234-123456789abc/start",
-      ]);
+      expect(urls).toEqual(["https://hc-ping.com/12345678-1234-1234-1234-123456789abc/start"]);
     } finally {
       globalThis.fetch = originalFetch;
     }
@@ -76,9 +70,7 @@ describe("healthcheck service", () => {
       await pingHealthcheckSuccess(env, "Gas: 0.40 Gwei | BTC: $84,000");
 
       expect(requests).toHaveLength(1);
-      expect(requests[0]?.url).toBe(
-        "https://hc-ping.com/12345678-1234-1234-1234-123456789abc"
-      );
+      expect(requests[0]?.url).toBe("https://hc-ping.com/12345678-1234-1234-1234-123456789abc");
       expect(requests[0]?.body).toBe("Gas: 0.40 Gwei | BTC: $84,000");
     } finally {
       globalThis.fetch = originalFetch;
@@ -105,7 +97,7 @@ describe("healthcheck service", () => {
 
       expect(requests).toHaveLength(1);
       expect(requests[0]?.url).toBe(
-        "https://hc-ping.com/12345678-1234-1234-1234-123456789abc/fail"
+        "https://hc-ping.com/12345678-1234-1234-1234-123456789abc/fail",
       );
       expect(requests[0]?.body).toContain("Error: Something broke");
     } finally {

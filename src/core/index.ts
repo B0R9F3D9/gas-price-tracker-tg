@@ -12,7 +12,6 @@ import {
 
 export default {
   async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
-    logger.info("worker_run_start");
     await pingHealthcheckStart(env);
 
     try {
@@ -23,18 +22,6 @@ export default {
         fetchEthPrice(),
       ]);
 
-      logger.info("data_fetched", {
-        gas: {
-          baseFee: gasData.baseFee,
-          baseFeeRaw: gasData.baseFeeRaw,
-        },
-        prices: {
-          BTC: btcPrice.price,
-          SOL: solPrice.price,
-          ETH: ethPrice.price,
-        },
-      });
-
       const html = formatMessage(gasData, {
         btc: btcPrice.price,
         sol: solPrice.price,
@@ -44,12 +31,15 @@ export default {
       await sendTelegramMessage(html, env);
 
       logger.info("worker_run_success", {
-        messageLength: html.length,
+        gas: gasData.baseFee,
+        btc: btcPrice.price,
+        eth: ethPrice.price,
+        sol: solPrice.price,
       });
 
       await pingHealthcheckSuccess(
         env,
-        `Gas: ${gasData.baseFee} Gwei | BTC: $${btcPrice.price} | ETH: $${ethPrice.price} | SOL: $${solPrice.price}`
+        `Gas: ${gasData.baseFee} Gwei | BTC: $${btcPrice.price} | ETH: $${ethPrice.price} | SOL: $${solPrice.price}`,
       );
     } catch (error) {
       logger.error("worker_run_error", error);
@@ -59,9 +49,12 @@ export default {
   },
 
   async fetch(_request: Request, _env: Env): Promise<Response> {
-    return new Response("ETH Gas Tracker is running. This endpoint is not meant for direct access.", {
-      status: 200,
-      headers: { "Content-Type": "text/plain" },
-    });
+    return new Response(
+      "ETH Gas Tracker is running. This endpoint is not meant for direct access.",
+      {
+        status: 200,
+        headers: { "Content-Type": "text/plain" },
+      },
+    );
   },
 } satisfies ExportedHandler<Env>;

@@ -28,7 +28,9 @@ describe("gas service", () => {
     };
     const sourcesWithPublicNode = getRpcSources(publicNodeEnv);
     expect(sourcesWithPublicNode[0]?.name).not.toBe("env_rpc");
-    expect(sourcesWithPublicNode.some((s) => s.url === "https://ethereum-rpc.publicnode.com")).toBe(true);
+    expect(sourcesWithPublicNode.some((s) => s.url === "https://ethereum-rpc.publicnode.com")).toBe(
+      true,
+    );
   });
 
   test("fetchGasPrice fetches real gas price", async () => {
@@ -42,7 +44,7 @@ describe("gas service", () => {
     let callCount = 0;
     const originalFetch = globalThis.fetch;
 
-    globalThis.fetch = mock(async (url: string | URL | Request) => {
+    globalThis.fetch = mock(async (_url: string | URL | Request) => {
       callCount++;
       if (callCount === 1) {
         return new Response("Origin Timeout", { status: 524, statusText: "" });
@@ -53,7 +55,7 @@ describe("gas service", () => {
           id: 1,
           result: "0x4dd5ecf8",
         }),
-        { status: 200, headers: { "Content-Type": "application/json" } }
+        { status: 200, headers: { "Content-Type": "application/json" } },
       );
     }) as any;
 

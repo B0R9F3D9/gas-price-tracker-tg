@@ -1,8 +1,8 @@
 {
   "name": "gas",
-  "module": "index.ts",
-  "type": "module",
   "private": true,
+  "type": "module",
+  "module": "index.ts",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260317.1",
     "@types/bun": "latest"

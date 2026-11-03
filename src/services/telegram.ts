@@ -8,11 +8,6 @@ export async function sendTelegramMessage(html: string, env: Env): Promise<void>
     parse_mode: "HTML",
   };
 
-  logger.info("telegram_send_start", {
-    chatId: env.TELEGRAM_CHAT_ID,
-    messageLength: html.length,
-  });
-
   try {
     const url = `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`;
     const response = await fetch(url, {
@@ -25,11 +20,6 @@ export async function sendTelegramMessage(html: string, env: Env): Promise<void>
       const error = await response.text();
       throw new Error(`Telegram API error: ${response.status} - ${error}`);
     }
-
-    logger.info("telegram_send_success", {
-      chatId: env.TELEGRAM_CHAT_ID,
-      messageLength: html.length,
-    });
   } catch (error) {
     logger.error("telegram_send_error", error, {
       chatId: env.TELEGRAM_CHAT_ID,

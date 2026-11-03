@@ -86,8 +86,8 @@ $ETH: 3,456.78
 
 ## Gas Color Thresholds
 
-| Range (Gwei) | Color | Emoji |
-|-------------|-------|-------|
-| 0-10 | Green | 🟩 |
-| 10-25 | Yellow | 🟨 |
-| 25+ | Red | 🟥 |
+| Range (Gwei) | Color  | Emoji |
+| ------------ | ------ | ----- |
+| 0-10         | Green  | 🟩    |
+| 10-25        | Yellow | 🟨    |
+| 25+          | Red    | 🟥    |

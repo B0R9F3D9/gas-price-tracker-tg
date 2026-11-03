@@ -3,12 +3,9 @@ import { PRICE_SOURCES } from "../utils/constants";
 import { logger } from "../utils/logger";
 
 async function fetchPriceWithFallback(symbol: CryptoSymbol): Promise<PriceData> {
-  logger.info("price_fetch_start", { symbol });
-
   for (const source of PRICE_SOURCES) {
     try {
       const url = source.urls[symbol];
-      logger.info("price_fetch_attempt", { symbol, source: source.name, url });
 
       const response = await fetch(url, {
         headers: {
@@ -51,11 +48,7 @@ async function fetchPriceWithFallback(symbol: CryptoSymbol): Promise<PriceData> 
       try {
         price = source.parsePrice(data);
       } catch (parseErr) {
-        logger.warn(
-          "price_fetch_parse_error",
-          { symbol, source: source.name },
-          parseErr,
-        );
+        logger.warn("price_fetch_parse_error", { symbol, source: source.name }, parseErr);
         continue;
       }
 
@@ -68,8 +61,6 @@ async function fetchPriceWithFallback(symbol: CryptoSymbol): Promise<PriceData> 
         });
         continue;
       }
-
-      logger.info("price_fetch_success", { symbol, source: source.name, price });
 
       return { price, symbol: `${symbol}USDT` };
     } catch (error) {
